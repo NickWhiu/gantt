@@ -55,7 +55,9 @@ export default class Gantt {
             view_mode: 'Day',
             date_format: 'YYYY-MM-DD',
             popup_trigger: 'click',
-            custom_popup_html: null
+            custom_popup_html: null,
+    		bar_resizable: true,
+            bar_draggable: true,
         };
         this.options = Object.assign({}, default_options, options);
     }
@@ -630,6 +632,10 @@ export default class Gantt {
             if (!action_in_progress()) return;
             const dx = e.offsetX - x_on_start;
             const dy = e.offsetY - y_on_start;
+
+            if (!this.options.bar_draggable) {
+                return;
+            }
 
             bars.forEach(bar => {
                 const $bar = bar.$bar;

@@ -70,7 +70,10 @@ export default class Bar {
         this.draw_bar();
         this.draw_progress_bar();
         this.draw_label();
-        this.draw_resize_handles();
+        
+        if (this.gantt.options.bar_resizable) {
+            this.draw_resize_handles();
+        }
     }
 
     draw_bar() {
@@ -184,7 +187,7 @@ export default class Bar {
             if (e.type === 'click') {
                 this.gantt.trigger_event('click', [this.task]);
             }
-            
+
             this.gantt.unselect_all();
             this.group.classList.toggle('active');
 

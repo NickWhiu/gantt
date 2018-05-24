@@ -435,7 +435,10 @@ class Bar {
         this.draw_bar();
         this.draw_progress_bar();
         this.draw_label();
-        this.draw_resize_handles();
+        
+        if (this.gantt.options.bar_resizable) {
+            this.draw_resize_handles();
+        }
     }
 
     draw_bar() {
@@ -549,7 +552,7 @@ class Bar {
             if (e.type === 'click') {
                 this.gantt.trigger_event('click', [this.task]);
             }
-            
+
             this.gantt.unselect_all();
             this.group.classList.toggle('active');
 
@@ -978,7 +981,9 @@ class Gantt {
             view_mode: 'Day',
             date_format: 'YYYY-MM-DD',
             popup_trigger: 'click',
-            custom_popup_html: null
+            custom_popup_html: null,
+    		bar_resizable: true,
+            bar_draggable: true,
         };
         this.options = Object.assign({}, default_options, options);
     }
@@ -1553,6 +1558,10 @@ class Gantt {
             if (!action_in_progress()) return;
             const dx = e.offsetX - x_on_start;
             const dy = e.offsetY - y_on_start;
+
+            if (!this.options.bar_draggable) {
+                return;
+            }
 
             bars.forEach(bar => {
                 const $bar = bar.$bar;
